@@ -13,25 +13,33 @@ Scrabble.scoreLetter = function(letter) {
   return 0;
 }
 
-// Get the score for a word (based only on the characters that compose it)
+// Get the score for a word (based on the characters that compose it and whether it has 7 letters)
 Scrabble.score = function(word) {
   var total = 0;
   for (var i = 0; i < word.length; i++){
     total += Scrabble.scoreLetter(word[i]);
+  }
+  if (word.length == 7){
+    total += 50;
   }
   return total;
 }
 
 // Get the highest-scoring word, taking into account bonuses related to word length
 Scrabble.highestScoreFrom = function(arrayOfWords) {
+  if (arrayOfWords == []){
+    return null;   // If there is nothing in the array, return null as the highest scoring word
+  } else if (arrayOfWords.length == 1) {
+    return arrayOfWords[0]; // If there is only one thing, return that thing and don't bother with loops
+  }
+
+  //If we got here, there are multiple words in the array
   var arrayOfScores = [];
   for (var i = 0; i < arrayOfWords.length; i++){
     arrayOfScores[i] = Scrabble.score(arrayOfWords[i]);
-    if (arrayOfWords[i].length == 7){
-      arrayOfScores[i] += 50;
-    } else if (arrayOfWords[i].length > 7){
-      arrayOfScores[i] = -1; // Something went wrong if this was reached - you only have 7 tiles in Scrabble.
-    }
+    // if (arrayOfWords[i].length > 7){
+    //   arrayOfScores[i] = -1; // Something went wrong if this was reached - you only have 7 tiles in Scrabble.
+    // }
   }
   var indexOfHighestYet = [0]; // Store the indices of the words whose scores match the highest score yet found
 
@@ -63,7 +71,56 @@ Scrabble.highestScoreFrom = function(arrayOfWords) {
   }
 }
 
-console.log(Scrabble.highestScoreFrom(['dq', 'ZZZZZZ', 'turtle', 'AAAAAA', 'QQQQQQ', 'bob', 'FAAAAA']));
+function Player(name) {
+  this.name = name;
+  this.plays = [];
+}
+
+Player.prototype.hasWon = function() {
+  if (this.totalScore() > 100){
+    return true;
+  } else {
+    return false;
+  }
+}
+
+Player.prototype.totalScore = function() {
+  var total = 0;
+  for (var i = 0; i < this.plays.length; i++){
+    total += Scrabble.score(this.plays[i]);
+  }
+  return total;
+}
+
+Player.prototype.highestScoringWord = function() {
+  return Scrabble.highestScoreFrom(this.plays);
+}
+
+Player.prototype.highestWordScore = function() {
+  return Scrabble.score(Scrabble.highestScoreFrom(this.plays));
+}
+
+Player.prototype.play = function(word) {
+  if (this.hasWon()){
+    return false;
+  } else {
+    this.plays.push(word);
+  }
+}
+
+// console.log(Scrabble.highestScoreFrom(['dq', 'ZZZZZZ', 'turtle', 'AAAAAA', 'QQQQQQ', 'bob', 'FAAAAA']));
 // console.log("Score for Q: " + Scrabble.scoreLetter('q'));
+bob = new Player('Bob');
+console.log(bob);
+bob.play('cat');
+bob.play('frog');
+bob.play('horse');
+bob.play('QQQQQQQ');
+bob.play('aaaaaaf');
+console.log(bob);
+console.log(bob.totalScore());
+console.log(bob.hasWon());
+console.log(bob.highestScoringWord());
+console.log(bob.highestWordScore());
 
 module.exports = Scrabble;
