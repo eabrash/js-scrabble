@@ -25,7 +25,8 @@ Scrabble.score = function(word) {
   return total;
 }
 
-// Get the highest-scoring word, taking into account bonuses related to word length
+// Get the highest-scoring word, taking into account bonuses related to word length. Thanks
+// to Sassa for showing me her solution, which my refactoring below is based on.
 Scrabble.highestScoreFrom = function(arrayOfWords) {
   if (arrayOfWords == []){
     return null;   // If there is nothing in the array, return null as the highest scoring word
@@ -34,41 +35,20 @@ Scrabble.highestScoreFrom = function(arrayOfWords) {
   }
 
   //If we got here, there are multiple words in the array
-  var arrayOfScores = [];
+  var highest = [arrayOfWords[0], Scrabble.score (arrayOfWords[0])];
+
   for (var i = 0; i < arrayOfWords.length; i++){
-    arrayOfScores[i] = Scrabble.score(arrayOfWords[i]);
-    // if (arrayOfWords[i].length > 7){
-    //   arrayOfScores[i] = -1; // Something went wrong if this was reached - you only have 7 tiles in Scrabble.
-    // }
-  }
-  var indexOfHighestYet = [0]; // Store the indices of the words whose scores match the highest score yet found
-
-  // console.log(arrayOfScores);
-
-  for (var i = 1; i < arrayOfScores.length; i++){
-    // console.log(arrayOfScores[i] + ", " + arrayOfScores[indexOfHighestYet[0]]);
-    if (arrayOfScores[i] > arrayOfScores[indexOfHighestYet[0]]){
-      indexOfHighestYet = [i]; // Reset highest score array
-    } else if (arrayOfScores[i] == arrayOfScores[indexOfHighestYet[0]]) {
-      indexOfHighestYet.push(i); // Add to highest score array
-    }
-  }
-
-  // console.log(indexOfHighestYet);
-
-  if (indexOfHighestYet.length == 1) { // Only one word that got the highest score - return that word
-    return arrayOfWords[indexOfHighestYet];
-  } else {  // Multiple words with highest score
-    var shortestYet = arrayOfWords[indexOfHighestYet[0]]; // First word in array of top scorers
-    for (var i = 0; i < indexOfHighestYet.length; i++){
-      if (arrayOfWords[indexOfHighestYet[i]].length == 7){
-        return arrayOfWords[indexOfHighestYet[i]]; // Return the first top-scoring word we find that has 7 letters, if any
-      } else if (arrayOfWords[indexOfHighestYet[i]].length < shortestYet.length) {
-        shortestYet = arrayOfWords[indexOfHighestYet[i]]; // Keep track of the shortest word we've yet found among the high-score words
+    var score = Scrabble.score(arrayOfWords[i]);
+    if (score > highest[1]) {
+      highest = [arrayOfWords[i], score];
+    } else if (score == highest[1]) {
+      if ((arrayOfWords[i].length == 7 && highest[0].length != 7) ||
+          (arrayOfWords[i].length < highest[0].length && highest[0].length != 7)) {
+            highest = [arrayOfWords[i], score];
       }
     }
-    return shortestYet; // If we got here, there was no 7-letter word, so we should return the shortest word we found
   }
+  return highest[0];
 }
 
 function Player(name) {
@@ -108,26 +88,26 @@ Player.prototype.play = function(word) {
   }
 }
 
-// console.log(Scrabble.highestScoreFrom(['dq', 'ZZZZZZ', 'turtle', 'AAAAAA', 'QQQQQQ', 'bob', 'FAAAAA']));
+// console.log(Scrabble.highestScoreFrom(['dq', 'ZZZZZZ', 'turtle', 'AAAAAAF', 'QQQQQQ', 'bob', 'FAAAAAA']));
 // console.log("Score for Q: " + Scrabble.scoreLetter('q'));
 
-bob = new Player('Bob');
-console.log(bob);
-bob.play('aaaa');
-bob.play('aaaaaaa');
-bob.play('aaa');
-console.log(bob);
-console.log("Bob has already won: " + bob.hasWon());
-bob.play('QQQQQQQ');
-console.log(bob);
-console.log("Bob has already won: " + bob.hasWon());
-bob.play('aaaaaaf');
-console.log(bob);
-console.log("Bob has already won: " + bob.hasWon());
-
-console.log(bob.highestScoringWord());
-console.log(bob.highestWordScore());
-console.log(bob.totalScore());
-console.log(bob.plays);
+// bob = new Player('Bob');
+// console.log(bob);
+// bob.play('aaaa');
+// bob.play('aaaaaaa');
+// bob.play('aaa');
+// console.log(bob);
+// console.log("Bob has already won: " + bob.hasWon());
+// bob.play('QQQQQQQ');
+// console.log(bob);
+// console.log("Bob has already won: " + bob.hasWon());
+// bob.play('aaaaaaf');
+// console.log(bob);
+// console.log("Bob has already won: " + bob.hasWon());
+//
+// console.log(bob.highestScoringWord());
+// console.log(bob.highestWordScore());
+// console.log(bob.totalScore());
+// console.log(bob.plays);
 
 module.exports = Scrabble;
