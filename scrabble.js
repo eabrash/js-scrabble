@@ -110,17 +110,24 @@ Player.prototype.play = function(word) {
 
 // console.log(Scrabble.highestScoreFrom(['dq', 'ZZZZZZ', 'turtle', 'AAAAAA', 'QQQQQQ', 'bob', 'FAAAAA']));
 // console.log("Score for Q: " + Scrabble.scoreLetter('q'));
+
 bob = new Player('Bob');
 console.log(bob);
-bob.play('cat');
-bob.play('frog');
-bob.play('horse');
+bob.play('aaaa');
+bob.play('aaaaaaa');
+bob.play('aaa');
+console.log(bob);
+console.log("Bob has already won: " + bob.hasWon());
 bob.play('QQQQQQQ');
+console.log(bob);
+console.log("Bob has already won: " + bob.hasWon());
 bob.play('aaaaaaf');
 console.log(bob);
-console.log(bob.totalScore());
-console.log(bob.hasWon());
+console.log("Bob has already won: " + bob.hasWon());
+
 console.log(bob.highestScoringWord());
 console.log(bob.highestWordScore());
+console.log(bob.totalScore());
+console.log(bob.plays);
 
 module.exports = Scrabble;
