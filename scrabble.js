@@ -54,8 +54,8 @@ Scrabble.highestScoreFrom = function(arrayOfWords) {
 }
 
 // Testing:
-// console.log(Scrabble.highestScoreFrom(['dq', 'ZZZZZZ', 'turtle', 'AAAAAAF', 'QQQQQQ', 'bob', 'FAAAAAA']));
-// console.log("Score for Q: " + Scrabble.scoreLetter('q'));
+console.log(Scrabble.highestScoreFrom(['dq', 'ZZZZZZ', 'turtle', 'AAAAAAF', 'QQQQQQ', 'bob', 'FAAAAAA']));
+console.log("Score for Q: " + Scrabble.scoreLetter('q'));
 
 // ==============PLAYER 'CLASS'================
 
@@ -93,24 +93,24 @@ Player.prototype.play = function(word) {
 }
 
 // Testing:
-// bob = new Player('Bob');
-// console.log(bob);
-// bob.play('aaaa');
-// bob.play('aaaaaaa');
-// bob.play('aaa');
-// console.log(bob);
-// console.log("Bob has already won: " + bob.hasWon());
-// bob.play('QQQQQQQ');
-// console.log(bob);
-// console.log("Bob has already won: " + bob.hasWon());
-// bob.play('aaaaaaf');
-// console.log(bob);
-// console.log("Bob has already won: " + bob.hasWon());
-//
-// console.log(bob.highestScoringWord());
-// console.log(bob.highestWordScore());
-// console.log(bob.totalScore());
-// console.log(bob.plays);
+bob = new Player('Bob');
+console.log(bob);
+bob.play('aaaa');
+bob.play('aaaaaaa');
+bob.play('aaa');
+console.log(bob);
+console.log("Bob has already won: " + bob.hasWon());
+bob.play('QQQQQQQ');
+console.log(bob);
+console.log("Bob has already won: " + bob.hasWon());
+bob.play('aaaaaaf');
+console.log(bob);
+console.log("Bob has already won: " + bob.hasWon());
+
+console.log(bob.highestScoringWord());
+console.log(bob.highestWordScore());
+console.log(bob.totalScore());
+console.log(bob.plays);
 
 // ==============TILEBAG 'CLASS'================
 
@@ -164,4 +164,4 @@ console.log("New size of tilebag:" + myTiles.tilesRemaining);
 console.log(myTiles.tiles);
 
 
-module.exports = Scrabble;
+module.exports = Scrabble, Player;
