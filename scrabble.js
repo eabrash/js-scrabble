@@ -1,3 +1,5 @@
+// ==============SCRABBLE 'CLASS'================
+
 var Scrabble = {};
 
 // Get the score for a single letter
@@ -51,17 +53,19 @@ Scrabble.highestScoreFrom = function(arrayOfWords) {
   return highest[0];
 }
 
+// Testing:
+// console.log(Scrabble.highestScoreFrom(['dq', 'ZZZZZZ', 'turtle', 'AAAAAAF', 'QQQQQQ', 'bob', 'FAAAAAA']));
+// console.log("Score for Q: " + Scrabble.scoreLetter('q'));
+
+// ==============PLAYER 'CLASS'================
+
 function Player(name) {
   this.name = name;
   this.plays = [];
 }
 
 Player.prototype.hasWon = function() {
-  if (this.totalScore() > 100){
-    return true;
-  } else {
-    return false;
-  }
+  return this.totalScore() > 100;
 }
 
 Player.prototype.totalScore = function() {
@@ -88,9 +92,7 @@ Player.prototype.play = function(word) {
   }
 }
 
-// console.log(Scrabble.highestScoreFrom(['dq', 'ZZZZZZ', 'turtle', 'AAAAAAF', 'QQQQQQ', 'bob', 'FAAAAAA']));
-// console.log("Score for Q: " + Scrabble.scoreLetter('q'));
-
+// Testing:
 // bob = new Player('Bob');
 // console.log(bob);
 // bob.play('aaaa');
@@ -109,5 +111,57 @@ Player.prototype.play = function(word) {
 // console.log(bob.highestWordScore());
 // console.log(bob.totalScore());
 // console.log(bob.plays);
+
+// ==============TILEBAG 'CLASS'================
+
+function Tilebag (){
+  this.tiles = ['J', 'K', 'Q', 'X', 'Z',
+                'B', 'B',
+                'C', 'C',
+                'F', 'F',
+                'H', 'H',
+                'M', 'M',
+                'P', 'P',
+                'V', 'V',
+                'W', 'W',
+                'Y', 'Y',
+                'G', 'G', 'G',
+                'D', 'D', 'D', 'D',
+                'L', 'L', 'L', 'L',
+                'S', 'S', 'S', 'S',
+                'U', 'U', 'U', 'U',
+                'T', 'T', 'T', 'T', 'T', 'T',
+                'R', 'R', 'R', 'R', 'R', 'R',
+                'N', 'N', 'N', 'N', 'N', 'N',
+                'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O',
+                'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A',
+                'I', 'I', 'I', 'I', 'I', 'I', 'I', 'I', 'I',
+                'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E', 'E'];
+}
+
+Tilebag.prototype.drawTiles = function(num){
+  if (num > this.tiles.length){
+    return false; // You are trying to draw more tiles than the tilebag contains
+  } else {
+    tilesPicked = []
+    for (var i = 0; i < num; i++){
+      var chosen = Math.floor(Math.random() * this.tiles.length);
+      tilesPicked.push(this.tiles.splice(chosen, 1)[0]);
+    }
+    return tilesPicked;
+  }
+}
+
+Tilebag.prototype.tilesRemaining = function(){
+  return this.tiles;
+}
+
+// Testing:
+myTiles = new Tilebag();
+console.log("Initial size of tilebag:" + myTiles.tiles.length);
+console.log(myTiles.drawTiles(7));
+console.log("New size of tilebag:" + myTiles.tilesRemaining);
+console.log(myTiles.tiles);
+
 
 module.exports = Scrabble;
